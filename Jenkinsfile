@@ -12,6 +12,7 @@ pipeline {
 			}
 			steps {
          			sh "mvn clean package -DskipTests=true"
+					sh 'ls -l'
 			}
     	}
 		stage('Unit Test Artifact - Maven') {
@@ -39,7 +40,7 @@ pipeline {
 			script {
 				docker.image('maven:3.9-eclipse-temurin-21').inside('-v /root/.m2:/root/.m2') {
 					sh 'mv target/*.jar .'
-					archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
+					archiveArtifacts artifacts: '*.jar', allowEmptyArchive: false
 					echo "Post build actions completed."
 				}
 			}
