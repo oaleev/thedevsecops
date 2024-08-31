@@ -4,6 +4,7 @@ pipeline {
 	environment {
 		DOCKER_REPO = 'manrala/numeric-app'
 		CONFIG_REPO = 'https://github.com/oaleev/thedevsecops_config.git'
+		CONFIG_FOLDER = "${env.WORKSPACE}/config"
 	}
   	stages {
     	stage('Build Artifact - Maven') {
@@ -53,7 +54,7 @@ pipeline {
 					sh "rm -rf config"
 					sh "git clone ${CONFIG_REPO} config"
 					sh "pwd"
-					sh "cd /var/jenkins_home/workspace/Testing/TestingSCM/SCMTesting/config"
+					sh "cd ${CONFIG_FOLDER}"
 					sh "ls -l"
 					sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
 					sh"""
