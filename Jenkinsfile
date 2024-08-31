@@ -36,22 +36,12 @@ pipeline {
 	}
 	post {
 		always {
-			stage('Post Actions'){
-				agent {
-					docker { 
-					image 'maven:3.9-eclipse-temurin-21'
-					args '-v /root/.m2:/root/.m2'
-					}
-				}
-			}
-			steps{
-				success {
+			script {
+				docker.image('maven:3.9-eclipse-temurin-21').inside('-v /root/.m2:/root/.m2') {
+					sh 'mv target/*.jar .'
 					archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
+					echo "Post build actions completed."
 				}
-				failure {
-					echo "Build Failed"
-				}
-			}
 		}
 	}
 }
