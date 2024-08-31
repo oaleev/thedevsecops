@@ -37,7 +37,10 @@ pipeline {
     	}
 		stage('Build the Image and Push') {
 			steps {
-         			sh "printenv"
+         		withDockerRegistry(credentialsId: 'DOCKER') {
+    				sh 'docker build -t manrala/numeric-app:""GIT_COMMIT"" .'
+					sh 'docker push manrala/numeric-app:""$GIT_COMMIT""'
+				}
 			}
     	}
 	}
