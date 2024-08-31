@@ -8,11 +8,11 @@ pipeline {
 	    }
 	}
   	stages {
-		stage('Checkout') {
-			steps {
-         			git branch: 'lab', url: 'https://github.com/oaleev/thedevsecops.git'
-			}
-    	}
+		// stage('Checkout') {
+		// 	steps {
+        //  			git branch: 'lab', url: 'https://github.com/oaleev/thedevsecops.git'
+		// 	}
+    	// }
     	stage('Build Artifact - Maven') {
 			steps {
          			sh "mvn clean package -DskipTests=true"
