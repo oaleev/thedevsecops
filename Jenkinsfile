@@ -3,7 +3,7 @@ pipeline {
 	// agent {docker 'manrala/all_in_one:v1'}
 	environment {
 		DOCKER_REPO = 'manrala/numeric-app'
-		CONFIG_REPO = 'git@github.com:oaleev/thedevsecops_config.git'
+		CONFIG_REPO = 'https://github.com/oaleev/thedevsecops_config.git'
 	}
   	stages {
     	stage('Build Artifact - Maven') {
