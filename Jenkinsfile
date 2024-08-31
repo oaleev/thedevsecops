@@ -12,7 +12,7 @@ pipeline {
 			}
 			steps {
          			sh "mvn clean package -DskipTests=true"
-					sh 'ls -l'
+					archive 'target/*.jar'
 			}
     	}
 		stage('Unit Test Artifact - Maven') {
