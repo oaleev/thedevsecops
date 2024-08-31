@@ -56,9 +56,9 @@ pipeline {
 					
 					dir('config'){
 					sh "ls -la"
-					sh "cat deployment.yaml"
+					sh "cat ./deployment.yaml"
 					sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
-					sh "cat deployment.yaml"
+					sh "cat ./deployment.yaml"
 					sh"""
 						git config user.email "mina@naveenmannam.com"
 						git config user.name "oaleev"
