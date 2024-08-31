@@ -1,12 +1,5 @@
 pipeline {
-	agent {
-    	docker { 
-		// Using the maven image from Docker Hub
-		image 'maven:3.9-eclipse-temurin-21'
-	       	// Mount the host's repository to cache the dependencies
-		args '-v /root/.m2:/root/.m2'
-	    }
-	}
+	agent none
   	stages {
 		// stage('Checkout') {
 		// 	steps {
@@ -14,11 +7,27 @@ pipeline {
 		// 	}
     	// }
     	stage('Build Artifact - Maven') {
+			agent {
+				docker { 
+				// Using the maven image from Docker Hub
+				image 'maven:3.9-eclipse-temurin-21'
+				// Mount the host's repository to cache the dependencies
+				args '-v /root/.m2:/root/.m2'
+				}
+			}
 			steps {
          			sh "mvn clean package -DskipTests=true"
 			}
     	}
 		stage('Unit Test Artifact - Maven') {
+			agent {
+				docker { 
+				// Using the maven image from Docker Hub
+				image 'maven:3.9-eclipse-temurin-21'
+				// Mount the host's repository to cache the dependencies
+				args '-v /root/.m2:/root/.m2'
+				}
+			}
 			steps {
          			sh "mvn test"
 			}
@@ -29,7 +38,12 @@ pipeline {
 				}
 			}
     	}
-		
+		// stage('Build and Push Image') {
+		// 	agent any
+		// 	steps {
+        //  			sh "mvn test"
+		// 	}
+    	// }
 	}
 	post {
 		success {
