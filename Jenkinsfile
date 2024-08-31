@@ -53,9 +53,8 @@ pipeline {
 				script {
 					sh "rm -rf config"
 					sh "git clone ${CONFIG_REPO} config"
-					sh "pwd"
-					sh "cd ${CONFIG_FOLDER}"
-					sh "ls -l"
+					
+					dir('config'){
 					sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
 					sh"""
 						git config user.email "mina@naveenmannam.com"
@@ -64,6 +63,7 @@ pipeline {
 						git commit -m "Update the image tag to ${GIT_COMMIT}"
 						git push origin lab
 					"""
+					}
 				}
 			}
     	}
