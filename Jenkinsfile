@@ -50,7 +50,7 @@ pipeline {
 		stage('Update the image tag') {
 			steps {
 				script {
-					sh "git clone ${CONFIG_REPO} config-repo"
+					sh "git clone ${CONFIG_REPO}"
 				}
 
 				dir('config-repo'){
