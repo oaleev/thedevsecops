@@ -42,6 +42,7 @@ pipeline {
 					archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
 					echo "Post build actions completed."
 				}
+			}
 		}
 	}
 }
