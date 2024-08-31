@@ -59,7 +59,7 @@ pipeline {
 					sh "ls -l"
 				}
 
-				dir('config-repo'){
+				dir('thedevsecops_config'){
 					sh"""
 						sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
 					"""
