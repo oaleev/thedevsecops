@@ -34,16 +34,26 @@ pipeline {
 				}
 			}
     	}
-	}
-	post {
-		always {
-			script {
-				docker.image('maven:3.9-eclipse-temurin-21').inside('-v /root/.m2:/root/.m2') {
-					sh 'mv target/*.jar .'
-					archiveArtifacts artifacts: '*.jar', allowEmptyArchive: false
-					echo "Post build actions completed."
+		stage('Build the Image and Push') {
+			agent {
+				docker { 
+					image 'docker:dind'
 				}
 			}
-		}
+			steps {
+         			sh "printenv"
+			}
+    	}
 	}
+	// post {
+	// 	always {
+	// 		script {
+	// 			docker.image('maven:3.9-eclipse-temurin-21').inside('-v /root/.m2:/root/.m2') {
+	// 				sh 'mv target/*.jar .'
+	// 				archiveArtifacts artifacts: '*.jar', allowEmptyArchive: false
+	// 				echo "Post build actions completed."
+	// 			}
+	// 		}
+	// 	}
+	// }
 }
