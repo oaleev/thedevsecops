@@ -43,33 +43,33 @@ pipeline {
 		stage('Build the Image and Push') {
 			steps {
          		withDockerRegistry(credentialsId: 'DOCKER', url: 'https://index.docker.io/v1/') {
-    				sh 'docker build -t manrala/numeric-app:""$GIT_COMMIT"" .'
-					sh 'docker push manrala/numeric-app:""$GIT_COMMIT""'
+    				sh 'docker build -t ${DOCKER_REPO}:""$GIT_COMMIT"" .'
+					sh 'docker push ${DOCKER_REPO}:""$GIT_COMMIT""'
 				}
 			}
     	}
-		stage('Update the image tag') {
-			steps {
-				script {
-					sh "rm -rf config"
-					sh "git clone ${CONFIG_REPO} config"
+		// stage('Update the image tag') {
+		// 	steps {
+		// 		script {
+		// 			sh "rm -rf config"
+		// 			sh "git clone ${CONFIG_REPO} config"
 					
-					dir('config'){
-					sh "ls -la"
-					sh "cat ./deployment.yaml"
-					sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
-					sh "cat ./deployment.yaml"
-					sh"""
-						git config user.email "mina@naveenmannam.com"
-						git config user.name "oaleev"
-						git add deployment.yaml
-						git commit -m "Update the image tag to ${GIT_COMMIT}"
-						git push origin lab
-					"""
-					}
-				}
-			}
-    	}
+		// 			dir('config'){
+		// 			sh "ls -la"
+		// 			sh "cat ./deployment.yaml"
+		// 			sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
+		// 			sh "cat ./deployment.yaml"
+		// 			sh"""
+		// 				git config user.email "mina@naveenmannam.com"
+		// 				git config user.name "oaleev"
+		// 				git add deployment.yaml
+		// 				git commit -m "Update the image tag to ${GIT_COMMIT}"
+		// 				git push origin lab
+		// 			"""
+		// 			}
+		// 		}
+		// 	}
+    	// }
 	}
 	// post {
 	// 	always {
