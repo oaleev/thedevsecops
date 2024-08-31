@@ -1,6 +1,6 @@
 
 pipeline {
-  agent any
+  agent none
 
   //environment {
   //  deploymentName = "devsecops"
@@ -209,7 +209,7 @@ pipeline {
 
  // }
 
-  post {
+ // post {
      //    always {
      //      junit 'target/surefire-reports/*.xml'
      //      jacoco execPattern: 'target/jacoco.exec'
@@ -221,24 +221,24 @@ pipeline {
      //      //sendNotification currentBuild.result
      //    }
 
-        success {
-        	script {
-		        /* Use slackNotifier.groovy from shared library and provide current build result as parameter */
-		        env.failedStage = "none"
-		        env.emoji = ":white_check_mark: :tada: :thumbsup_all:"
-		        sendNotification currentBuild.result
-		      }
-        }
+    //     success {
+    //     	script {
+		  //       /* Use slackNotifier.groovy from shared library and provide current build result as parameter */
+		  //       env.failedStage = "none"
+		  //       env.emoji = ":white_check_mark: :tada: :thumbsup_all:"
+		  //       sendNotification currentBuild.result
+		  //     }
+    //     }
 
-	    failure {
-	    	script {
-			  //Fetch information about  failed stage
-		      def failedStages = getFailedStages( currentBuild )
-	          env.failedStage = failedStages.failedStageName
-	          env.emoji = ":x: :red_circle: :sos:"
-		      sendNotification currentBuild.result
-		    }
-	    }
-    }
+	   //  failure {
+	   //  	script {
+			 //  //Fetch information about  failed stage
+		  //     def failedStages = getFailedStages( currentBuild )
+	   //        env.failedStage = failedStages.failedStageName
+	   //        env.emoji = ":x: :red_circle: :sos:"
+		  //     sendNotification currentBuild.result
+		  //   }
+	   //  }
+    // }
 
 }
