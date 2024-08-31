@@ -50,6 +50,7 @@ pipeline {
 		stage('Update the image tag') {
 			steps {
 				script {
+					sh "rm -rf thedevsecops_config"
 					sh "git clone ${CONFIG_REPO}"
 					sh "ls -l"
 				}
