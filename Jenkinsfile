@@ -51,8 +51,8 @@ pipeline {
 			steps {
 				script {
 					sh "rm -rf thedevsecops_config"
-					sh "git clone ${CONFIG_REPO}"
-					sh "cd thedevsecops_config"
+					sh "git clone ${CONFIG_REPO} config"
+					sh "cd config"
 					sh "ls -l"
 					sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
 					sh"""
