@@ -55,6 +55,7 @@ pipeline {
 					sh "git clone ${CONFIG_REPO} config"
 					
 					dir('config'){
+					sh "ls -la"
 					sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
 					sh"""
 						git config user.email "mina@naveenmannam.com"
