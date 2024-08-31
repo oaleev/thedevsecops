@@ -51,11 +51,12 @@ pipeline {
 			steps {
 				script {
 					sh "git clone ${CONFIG_REPO}"
+					sh "ls -l"
 				}
 
 				dir('config-repo'){
 					sh"""
-						sh "sed -i 's#image: ${DOCKER_REPO}:*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
+						sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
 					"""
 					sh"""
 						git config user.email "mina@naveenmannam.com"
