@@ -48,6 +48,9 @@ pipeline {
 			}
     	}
 		stage('Update the image tag') {
+			agent {
+                docker { image 'docker:dind' }
+            }
 			steps {
 				script {
 					sh "rm -rf thedevsecops_config"
