@@ -55,13 +55,13 @@ pipeline {
 
 				dir('config-repo'){
 					sh"""
-						sh "sed -i 's#image: ${DOCKER_REPO}:*#image: ${DOCKER_REPO}:${GIT_HUB}#g' deployment.yaml"
+						sh "sed -i 's#image: ${DOCKER_REPO}:*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
 					"""
 					sh"""
 						git config user.email "mina@naveenmannam.com"
 						git config user.name "oaleev"
 						git add deployment.yaml
-						git commit -m "Update the image tag to ${GIT_HUB}"
+						git commit -m "Update the image tag to ${GIT_COMMIT}"
 						git push origin lab
 					"""
 				}
