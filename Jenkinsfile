@@ -35,11 +35,6 @@ pipeline {
 			}
     	}
 		stage('Build the Image and Push') {
-			agent {
-				docker { 
-					image 'docker:dind'
-				}
-			}
 			steps {
          			sh "printenv"
 			}
