@@ -35,11 +35,23 @@ pipeline {
     	}
 	}
 	post {
-		success {
-			archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
-		}
-		failure {
-			echo "Build Failed"
+		always {
+			stage('Post Actions'){
+				agent {
+					docker { 
+					image 'maven:3.9-eclipse-temurin-21'
+					args '-v /root/.m2:/root/.m2'
+					}
+				}
+			}
+			steps{
+				success {
+					archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
+				}
+				failure {
+					echo "Build Failed"
+				}
+			}
 		}
 	}
 }
