@@ -47,7 +47,7 @@ pipeline {
 			steps {
          		git branch: 'lab', credentialsId: 'GITHUB', url: 'https://github.com/oaleev/thedevsecops_config.git'
 				sh "sed -i 's#replace#manrala/numeric-app:${GIT_COMMIT}#g' deployment.yaml"
-				git -am "Updated the tag with ${GIT_COMMINT}"
+				git commit -am "Updated the tag with ${GIT_COMMINT}"
 				git push -origin lab
 			}
     	}
