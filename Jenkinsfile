@@ -46,6 +46,14 @@ pipeline {
     	// }
 	}
 	post {
+		agent {
+				docker { 
+				// Using the maven image from Docker Hub
+				image 'maven:3.9-eclipse-temurin-21'
+				// Mount the host's repository to cache the dependencies
+				args '-v /root/.m2:/root/.m2'
+				}
+		}
 		success {
 			archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
 		}
