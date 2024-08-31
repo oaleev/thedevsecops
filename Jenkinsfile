@@ -18,6 +18,11 @@ pipeline {
          			sh "mvn clean package -DskipTests=true"
 			}
     	}
+		stage('Unit Test Artifact - Maven') {
+			steps {
+         			sh "mvn test"
+			}
+    	}
 	}
 	post {
 		success {
