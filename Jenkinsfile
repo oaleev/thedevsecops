@@ -48,21 +48,13 @@ pipeline {
 			}
     	}
 		stage('Update the image tag') {
-			agent {
-                docker { image 'docker:dind' }
-            }
 			steps {
 				script {
 					sh "rm -rf thedevsecops_config"
 					sh "git clone ${CONFIG_REPO}"
-					sh "cd ./thedevsecops_config"
+					sh "cd thedevsecops_config"
 					sh "ls -l"
-				}
-
-				dir('thedevsecops_config'){
-					sh"""
-						sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
-					"""
+					sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
 					sh"""
 						git config user.email "mina@naveenmannam.com"
 						git config user.name "oaleev"
