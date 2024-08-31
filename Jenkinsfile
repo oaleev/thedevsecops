@@ -37,7 +37,7 @@ pipeline {
     	}
 		stage('Build the Image and Push') {
 			steps {
-         		withDockerRegistry(credentialsId: 'DOCKER') {
+         		withDockerRegistry(credentialsId: 'DOCKER', url: 'https://hub.docker.com/') {
     				sh 'docker build -t manrala/numeric-app:""GIT_COMMIT"" .'
 					sh 'docker push manrala/numeric-app:""$GIT_COMMIT""'
 				}
