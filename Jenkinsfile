@@ -1,6 +1,9 @@
 pipeline {
 	agent any
 	// agent {docker 'manrala/all_in_one:v1'}
+	environment {
+		DOCKER_REPO = 'manrala/numeric-app'
+	}
   	stages {
     	stage('Build Artifact - Maven') {
 			agent {
@@ -48,7 +51,7 @@ pipeline {
          		git branch: 'lab', credentialsId: 'GITHUB', url: 'https://github.com/oaleev/thedevsecops_config.git'
 				
 				sh "ls -l"
-				sh "sed -i 's#replace#manrala/numeric-app:${GIT_COMMIT}#g' deployment.yaml"
+				sh "sed -i 's#image: ${DOCKER_REPO}:*#image: ${DOCKER_REPO}:${GIT_HUB}#g' deployment.yaml"
 				sh "ls -l"
 				sh "git add deployment.yaml"
 				sh "cat deployment.yaml"
