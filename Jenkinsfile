@@ -46,9 +46,13 @@ pipeline {
 		stage('Update the image tag') {
 			steps {
          		git branch: 'lab', credentialsId: 'GITHUB', url: 'https://github.com/oaleev/thedevsecops_config.git'
-				sh "sed -i 's#replace#manrala/numeric-app:${GIT_COMMIT}#g' deployment.yaml"
-				sh "git commit -am 'Updated the tag with ${GIT_COMMINT}'"
-				sh "git push -origin lab"
+				
+				sh "ls -l"
+
+				// sh "sed -i 's#replace#manrala/numeric-app:${GIT_COMMIT}#g' deployment.yaml"
+				// sh "git add ."
+				// sh "git commit -m 'Updated the tag with ${GIT_COMMINT}'"
+				// sh "git push -origin lab"
 			}
     	}
 	}
