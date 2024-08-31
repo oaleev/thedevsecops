@@ -53,7 +53,7 @@ pipeline {
 					sh "rm -rf config"
 					sh "git clone ${CONFIG_REPO} config"
 					sh "pwd"
-					sh "cd config"
+					sh "cd /var/jenkins_home/workspace/Testing/TestingSCM/SCMTesting/config"
 					sh "ls -l"
 					sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
 					sh"""
