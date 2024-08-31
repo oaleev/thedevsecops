@@ -52,6 +52,7 @@ pipeline {
 				script {
 					sh "rm -rf thedevsecops_config"
 					sh "git clone ${CONFIG_REPO}"
+					sh "cd thedevsecops_config"
 					sh "ls -l"
 				}
 
