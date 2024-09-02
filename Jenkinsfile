@@ -12,6 +12,7 @@ pipeline {
 				docker { 
 				// Using the maven image from Docker Hub
 				image 'maven:3.9-eclipse-temurin-21'
+				args '-v $HOME/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -24,6 +25,7 @@ pipeline {
 				docker { 
 				// Using the maven image from Docker Hub
 				image 'maven:3.9-eclipse-temurin-21'
+				args '-v $HOME/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -38,21 +40,16 @@ pipeline {
     	}
 		stage('Build the Image and Push to repo...') {
 			steps {
-				script {
-					sh "ls -la"
-				}
          		withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
-    				sh 'docker build -t ${DOCKER_REPO}:""$GIT_COMMIT"" .'
-					sh 'docker push ${DOCKER_REPO}:""$GIT_COMMIT""'
+					sh """
+					ls -ls
+    				docker build -t ${DOCKER_REPO}:""$GIT_COMMIT"" .
+					docker push ${DOCKER_REPO}:""$GIT_COMMIT""
+					"""
 				}
 			}
     	}
 		stage ('Clone the Repo'){
-			// agent {
-			// 	docker {
-			// 		image 'manrala/all_in_one:v1'
-			// 	}
-			// }
 			steps {
 				script {
 					sh "rm -rf config-repo"
