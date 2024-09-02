@@ -55,6 +55,7 @@ pipeline {
 			}
 			steps {
 				script {
+					sh "rm -rf config-repo"
 					sh "git clone ${CONFIG_REPO_URL} config-repo"
 					dir('config-repo'){
 						sh "git fetch -a"
