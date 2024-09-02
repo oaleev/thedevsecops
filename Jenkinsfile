@@ -12,7 +12,6 @@ pipeline {
 				docker { 
 				// Using the maven image from Docker Hub
 				image 'maven:3.9-eclipse-temurin-21'
-				args '-v $HOME/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -25,7 +24,6 @@ pipeline {
 				docker { 
 				// Using the maven image from Docker Hub
 				image 'maven:3.9-eclipse-temurin-21'
-				args '-v $HOME/.m2:/root/.m2'
 				}
 			}
 			steps {
