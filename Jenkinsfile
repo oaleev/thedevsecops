@@ -1,5 +1,5 @@
 pipeline {
-	// agent any
+	agent any
 	// agent {docker 'manrala/all_in_one:v1'}
 	// agent none
 	environment {
@@ -38,7 +38,6 @@ pipeline {
 			}
     	}
 		stage('Build the Image and Push to repo...') {
-			agent any
 			steps {
 				script {
 					def jarfile = sh(script: 'ls target/*.jar', returnStdout: true).trim()
