@@ -11,7 +11,7 @@
 
 FROM openjdk:21-slim-buster
 
-ARG JAR_FILE=app.jar
+ARG JAR_FILE="target/*.jar"
 
 # Update the packages
 RUN apt-get update && apt-get install -y curl wget git vim --no-install-recommends && \
