@@ -71,7 +71,23 @@ pipeline {
 							ls -la
 							cd config-repo
 							ls -la
+							cat deployment.yaml
+							echo "-------------"
 							sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml
+							echo "-------------"
+							cat deployment.yaml
+						"""
+					}
+				}
+			}
+    	}
+		stage('Commit and Push') {
+			steps {
+				script {
+						sh """
+							echo "Pushing the changes"
+							cd config-repo
+							cat deployment.yaml
 						"""
 					}
 				}
