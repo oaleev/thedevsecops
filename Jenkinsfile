@@ -67,10 +67,11 @@ pipeline {
 		stage('Update the Deployment file') {
 			steps {
 				script {
-						sh "ls -la"
-						sh "cd config-repo"
-						sh "ls -la"
-
+						sh """
+							ls -la
+							cd config-repo
+							ls -la
+						"""
 						// Read the deployment file
 						// def deploymentFile = redFile "config-repo/deployment.yaml"
 
