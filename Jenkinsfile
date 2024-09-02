@@ -15,7 +15,6 @@ pipeline {
 				}
 			}
 			steps {
-					cleanWs()
          			sh "mvn clean package -DskipTests=true"
 					archive 'target/*.jar'
 			}
