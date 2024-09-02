@@ -50,7 +50,7 @@ pipeline {
 		stage ('Clone the Repo'){
 			agent {
 				docker {
-					image 'alpine/git'
+					image 'manrala/all_in_one:v1'
 				}
 			}
 			steps {
