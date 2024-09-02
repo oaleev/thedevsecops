@@ -8,6 +8,16 @@ pipeline {
 		CONFIG_FOLDER = "${env.WORKSPACE}/config"
 	}
   	stages {
+		stage('Clean Slate') {
+			agent {
+				docker {
+					image 'manrala/all_in_one:v1'
+				}
+			}
+			steps {
+         			cleanWs()
+			}
+    	}
     	stage('Build Artifact - Maven') {
 			agent {
 				docker {
