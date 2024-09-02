@@ -1,5 +1,6 @@
 pipeline {
 	agent any
+
 	environment {
 		DOCKER_REPO = 'manrala/numeric-app'
 		CONFIG_REPO_URL = 'https://github.com/oaleev/thedevsecops_config.git'
@@ -9,21 +10,20 @@ pipeline {
   	stages {
     	stage('Build Artifact - Maven') {
 			agent {
-				docker { 
-				// Using the maven image from Docker Hub
-				image 'maven:3.9-eclipse-temurin-21'
+				docker {
+					image 'manrala/all_in_one:v1'
 				}
 			}
 			steps {
          			sh "mvn clean package -DskipTests=true"
-					archive 'target/*.jar'
+					archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
+					stash includes: 'target/*.jar', name: 'buildJar'
 			}
     	}
 		stage('Unit Test Artifact - Maven') {
 			agent {
-				docker { 
-				// Using the maven image from Docker Hub
-				image 'maven:3.9-eclipse-temurin-21'
+				docker {
+					image 'manrala/all_in_one:v1'
 				}
 			}
 			steps {
@@ -38,22 +38,17 @@ pipeline {
     	}
 		stage('Build the Image and Push to repo...') {
 			steps {
-				script {
-					def jarfile = sh(script: 'ls target/*.jar', returnStdout: true).trim()
-					sh "cp ${jarfile} ."
-				}
+				unstash 'buildJar'
          		withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
-    				sh 'docker build -t ${DOCKER_REPO}:""$GIT_COMMIT"" .'
-					sh 'docker push ${DOCKER_REPO}:""$GIT_COMMIT""'
+					sh """
+					ls -ls
+    				docker build -t ${DOCKER_REPO}:""$GIT_COMMIT"" .
+					docker push ${DOCKER_REPO}:""$GIT_COMMIT""
+					"""
 				}
 			}
     	}
 		stage ('Clone the Repo'){
-			// agent {
-			// 	docker {
-			// 		image 'manrala/all_in_one:v1'
-			// 	}
-			// }
 			steps {
 				script {
 					sh "rm -rf config-repo"
@@ -93,6 +88,11 @@ pipeline {
 					}
 				}
 			}
+		}
+	}
+	post {
+		always {
+			cleanWs()
 		}
 	}
 }
