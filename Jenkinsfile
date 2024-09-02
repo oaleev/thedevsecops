@@ -1,10 +1,6 @@
 pipeline {
-	// agent any
-	agent {
-		docker {
-			image 'manrala/all_in_one:v1'
-		}
-	}
+	agent any
+
 	environment {
 		DOCKER_REPO = 'manrala/numeric-app'
 		CONFIG_REPO_URL = 'https://github.com/oaleev/thedevsecops_config.git'
@@ -20,6 +16,11 @@ pipeline {
 			// 	args '-v $HOME/.m2:/root/.m2'
 			// 	}
 			// }
+				agent {
+		docker {
+			image 'manrala/all_in_one:v1'
+		}
+	}
 			steps {
          			sh "mvn clean package -DskipTests=true"
 					archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
@@ -34,6 +35,11 @@ pipeline {
 			// 	args '-v $HOME/.m2:/root/.m2'
 			// 	}
 			// }
+				agent {
+		docker {
+			image 'manrala/all_in_one:v1'
+		}
+	}
 			steps {
          			sh "mvn test"
 			}
