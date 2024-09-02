@@ -16,7 +16,7 @@ pipeline {
 			}
 			steps {
          			sh "mvn clean package -DskipTests=true"
-					archive 'target/*.jar'
+					archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
 			}
     	}
 		stage('Unit Test Artifact - Maven') {
