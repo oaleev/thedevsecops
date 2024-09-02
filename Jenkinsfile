@@ -69,14 +69,10 @@ pipeline {
 			steps {
 				script {
 						sh """
-							ls -la
 							cd config-repo
-							ls -la
-							cat deployment.yaml
 							echo "-------------"
 							sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml
 							echo "-------------"
-							cat deployment.yaml
 						"""
 					}
 				}
@@ -88,7 +84,6 @@ pipeline {
 						sh """
 							echo "Pushing the changes"
 							cd config-repo
-							cat deployment.yaml
 							git config user.name "oaleev"
 							git config user.email "mina@mannamnaveen.com"
 							git add deployment.yaml
@@ -101,15 +96,3 @@ pipeline {
 		}
 	}
 }
-	// post {
-	// 	always {
-	// 		script {
-	// 			docker.image('maven:3.9-eclipse-temurin-21').inside('-v /root/.m2:/root/.m2') {
-	// 				sh 'mv target/*.jar .'
-	// 				archiveArtifacts artifacts: '*.jar', allowEmptyArchive: false
-	// 				echo "Post build actions completed."
-	// 			}
-	// 		}
-	// 	}
-	// }
-// }
