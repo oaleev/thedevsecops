@@ -29,9 +29,9 @@ public class NumericController {
 		public String compareToFifty(@PathVariable int value) {
 			String message = "Could not determine comparison";
 			if (value > 50) {
-				message = "Greater than 50";
+				message = "Yes, Greater than 50";
 			} else {
-				message = "Smaller than or equal to 50";
+				message = "Yes, Smaller than or equal to 50";
 			}
 			return message;
 		}
