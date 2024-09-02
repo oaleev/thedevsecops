@@ -44,10 +44,9 @@ pipeline {
     	}
 		stage('Build the Image and Push to repo...') {
 			steps {
-				// script {
-				// 	def jarfile = sh(script: 'ls target/*.jar', returnStdout: true).trim()
-				// 	sh "cp ${jarfile} ."
-				// }
+				script {
+					sh "ls -la"
+				}
          		withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
     				sh 'docker build -t ${DOCKER_REPO}:""$GIT_COMMIT"" .'
 					sh 'docker push ${DOCKER_REPO}:""$GIT_COMMIT""'
