@@ -42,7 +42,7 @@ pipeline {
     	}
 		stage('Build the Image and Push') {
 			steps {
-         		withDockerRegistry(credentialsId: 'DOCKER', url: 'https://index.docker.io/v1/') {
+         		withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
     				sh 'docker build -t ${DOCKER_REPO}:""$GIT_COMMIT"" .'
 					sh 'docker push ${DOCKER_REPO}:""$GIT_COMMIT""'
 				}
