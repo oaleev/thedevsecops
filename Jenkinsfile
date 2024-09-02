@@ -12,11 +12,10 @@ pipeline {
 				docker { 
 				// Using the maven image from Docker Hub
 				image 'maven:3.9-eclipse-temurin-21'
-				// Mount the host's repository to cache the dependencies
-				// args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
+					cleanWs()
          			sh "mvn clean package -DskipTests=true"
 					archive 'target/*.jar'
 			}
@@ -41,7 +40,7 @@ pipeline {
 		stage('Build the Image and Push to repo...') {
 			steps {
 				script {
-					def jarfile = sh(script: 'ls *.jar', returnStdout: true).trim()
+					def jarfile = sh(script: 'ls target/*.jar', returnStdout: true).trim()
 					sh "cp ${jarfile} ."
 				}
          		withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
