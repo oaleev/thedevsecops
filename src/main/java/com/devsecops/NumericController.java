@@ -22,7 +22,7 @@ public class NumericController {
 
 		@GetMapping("/")
 		public String welcome() {
-			return "The DevSecOps";
+			return "DevSecOps is cool...";
 		}
 
 		@GetMapping("/compare/{value}")
