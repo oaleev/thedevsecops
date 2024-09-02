@@ -1,6 +1,7 @@
 pipeline {
-	agent any
+	// agent any
 	// agent {docker 'manrala/all_in_one:v1'}
+	agent none
 	environment {
 		DOCKER_REPO = 'manrala/numeric-app'
 		CONFIG_REPO = 'https://github.com/oaleev/thedevsecops_config.git'
@@ -37,6 +38,12 @@ pipeline {
 			}
     	}
 		stage('Build the Image and Push to repo...') {
+			agent {
+				docker { 
+				// Using the maven image from Docker Hub
+				image 'maven:3.9-eclipse-temurin-21'
+				}
+			}
 			steps {
 				script {
 					def jarfile = sh(script: 'ls target/*.jar', returnStdout: true).trim()
