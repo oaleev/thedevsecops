@@ -83,7 +83,7 @@ pipeline {
 			}
 		stage('Commit and Push') {
 			steps {
-				withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default', variable: 'GIT_TOKEN')]) {
+				withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
 					script {
 						sh """
 							echo "Pushing the changes"
@@ -93,8 +93,7 @@ pipeline {
 							git config user.email "mina@mannamnaveen.com"
 							git add deployment.yaml
 							git commit -m "Updated the image tag to  ${DOCKER_REPO}:${GIT_COMMIT}"
-							git push https://${GIT_TOKEN}@github.com/${CONFIG_ORG} lab
-
+							git push https://github.com/oaleev/thedevsecops_config.git lab
 						"""
 					}
 				}
