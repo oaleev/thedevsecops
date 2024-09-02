@@ -11,7 +11,7 @@
 
 FROM openjdk:21-slim-buster
 
-ARG JAR_FILE=target/*.jar
+ARG JAR_FILE=app.jar
 
 # Update the packages
 RUN apt-get update && apt-get install -y curl wget git vim --no-install-recommends && \
@@ -21,10 +21,10 @@ RUN apt-get update && apt-get install -y curl wget git vim --no-install-recommen
 RUN groupadd --system pipeline && \
   useradd --no-log-init --system --gid pipeline k8s-pipeline
 
-ADD target/*.jar app.jar
+COPY ${JAR_FILE} /home/k8s-pipeline/app.jar
 
 USER k8s-pipeline
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/home/k8s-pipeline/app.jar"]

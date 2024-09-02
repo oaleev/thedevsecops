@@ -26,8 +26,6 @@ pipeline {
 				docker { 
 				// Using the maven image from Docker Hub
 				image 'maven:3.9-eclipse-temurin-21'
-				// Mount the host's repository to cache the dependencies
-				// args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -42,6 +40,10 @@ pipeline {
     	}
 		stage('Build the Image and Push to repo...') {
 			steps {
+				script {
+					def jarfile = sh(script: 'ls target/*.jar', returnStdout: true).trim()
+					sh "cp ${jarfile} ."
+				}
          		withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
     				sh 'docker build -t ${DOCKER_REPO}:""$GIT_COMMIT"" .'
 					sh 'docker push ${DOCKER_REPO}:""$GIT_COMMIT""'
