@@ -80,7 +80,6 @@ pipeline {
 					}
 				}
 			}
-    	}
 		stage('Commit and Push') {
 			steps {
 				script {
@@ -90,10 +89,10 @@ pipeline {
 							cat deployment.yaml
 						"""
 					}
-				}
 			}
-    	}
+		}
 	}
+}
 	// post {
 	// 	always {
 	// 		script {
