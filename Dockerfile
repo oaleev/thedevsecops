@@ -21,12 +21,10 @@ RUN apt-get update && apt-get install -y curl wget git vim --no-install-recommen
 RUN groupadd --system pipeline && \
   useradd --no-log-init --system --gid pipeline k8s-pipeline
 
-WORKDIR /app
-
 ADD target/*.jar app.jar
 
 USER k8s-pipeline
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
