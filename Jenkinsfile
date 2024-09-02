@@ -38,7 +38,7 @@ pipeline {
     	}
 		stage('Build the Image and Push to repo...') {
 			steps {
-				unstash 'builtJar'
+				unstash 'buildJar'
          		withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
 					sh """
 					ls -ls
