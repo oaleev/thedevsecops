@@ -2,7 +2,7 @@ pipeline {
 	agent any
 	environment {
 		DOCKER_REPO = 'manrala/numeric-app'
-		CONFIG_REPO = 'https://github.com/oaleev/thedevsecops_config.git'
+		CONFIG_REPO_URL = 'https://github.com/oaleev/thedevsecops_config.git'
 		CONFIG_FOLDER = "${env.WORKSPACE}/config"
 	}
   	stages {
@@ -47,28 +47,42 @@ pipeline {
 				}
 			}
     	}
-		// stage('Update the image tag') {
-		// 	steps {
-		// 		script {
-		// 			sh "rm -rf config"
-		// 			sh "git clone ${CONFIG_REPO} config"
-					
-		// 			dir('config'){
-		// 			sh "ls -la"
-		// 			sh "cat ./deployment.yaml"
-		// 			sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
-		// 			sh "cat ./deployment.yaml"
-		// 			sh"""
-		// 				git config user.email "mina@naveenmannam.com"
-		// 				git config user.name "oaleev"
-		// 				git add deployment.yaml
-		// 				git commit -m "Update the image tag to ${GIT_COMMIT}"
-		// 				git push origin lab
-		// 			"""
-		// 			}
-		// 		}
-		// 	}
-    	// }
+		stage ('Clone the Repo'){
+			agent {
+				docker {
+					image 'alpine/git'
+				}
+			}
+			steps {
+				script {
+					sh "git clone ${CONFIG_REPO_URL} config-repo"
+					dir('config-repo'){
+						sh "git fetch -a"
+						sh "git switch lab"
+					}
+				}
+			}
+		}
+		stage('Update the Deployment file') {
+			agent {
+				docker {
+					image 'alpine:latest'
+				}
+			}
+			steps {
+				script {
+						// Read the deployment file
+						def deploymentFile = redFile "config-repo/deployment.yaml"
+
+						// Replace the image tag
+						def updatedDeploymentFile = deploymentFile.replaceAll(/image:\s+${DOCKER_REPO}:.*/, "image:${DOCKER_REPO}:${GIT_COMMIT}")
+
+						// Write the file
+						writeFile file: "config-repo/deployment.yaml", text: updatedDeploymentFile
+					}
+				}
+			}
+    	}
 	}
 	// post {
 	// 	always {
