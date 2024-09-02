@@ -11,6 +11,8 @@
 
 FROM openjdk:21-slim-buster
 
+ARG JAR_FILE=target/*.jar
+
 # Update the packages
 RUN apt-get update && apt-get install -y curl wget git vim --no-install-recommends && \
   rm -rf /var/lib/apt/lists/*
@@ -21,7 +23,7 @@ RUN groupadd --system pipeline && \
 
 WORKDIR /app
 
-COPY target/*.jar app.jar
+ADD target/*.jar app.jar
 
 USER k8s-pipeline
 
