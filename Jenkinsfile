@@ -1,9 +1,9 @@
 pipeline {
 	agent any
-	// agent {docker 'manrala/all_in_one:v1'}
 	environment {
 		DOCKER_REPO = 'manrala/numeric-app'
-		CONFIG_REPO = 'https://github.com/oaleev/thedevsecops_config.git'
+		CONFIG_REPO_URL = 'https://github.com/oaleev/thedevsecops_config.git'
+		CONFIG_ORG = 'oaleev/thedevsecops_config.git'
 		CONFIG_FOLDER = "${env.WORKSPACE}/config"
 	}
   	stages {
@@ -12,8 +12,6 @@ pipeline {
 				docker { 
 				// Using the maven image from Docker Hub
 				image 'maven:3.9-eclipse-temurin-21'
-				// Mount the host's repository to cache the dependencies
-				args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -26,8 +24,6 @@ pipeline {
 				docker { 
 				// Using the maven image from Docker Hub
 				image 'maven:3.9-eclipse-temurin-21'
-				// Mount the host's repository to cache the dependencies
-				args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -40,46 +36,63 @@ pipeline {
 				}
 			}
     	}
-		stage('Build the Image and Push') {
+		stage('Build the Image and Push to repo...') {
 			steps {
-         		withDockerRegistry(credentialsId: 'DOCKER', url: 'https://index.docker.io/v1/') {
+				script {
+					def jarfile = sh(script: 'ls target/*.jar', returnStdout: true).trim()
+					sh "cp ${jarfile} ."
+				}
+         		withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
     				sh 'docker build -t ${DOCKER_REPO}:""$GIT_COMMIT"" .'
 					sh 'docker push ${DOCKER_REPO}:""$GIT_COMMIT""'
 				}
 			}
     	}
-		// stage('Update the image tag') {
-		// 	steps {
-		// 		script {
-		// 			sh "rm -rf config"
-		// 			sh "git clone ${CONFIG_REPO} config"
-					
-		// 			dir('config'){
-		// 			sh "ls -la"
-		// 			sh "cat ./deployment.yaml"
-		// 			sh "sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml"
-		// 			sh "cat ./deployment.yaml"
-		// 			sh"""
-		// 				git config user.email "mina@naveenmannam.com"
-		// 				git config user.name "oaleev"
-		// 				git add deployment.yaml
-		// 				git commit -m "Update the image tag to ${GIT_COMMIT}"
-		// 				git push origin lab
-		// 			"""
-		// 			}
-		// 		}
-		// 	}
-    	// }
+		stage ('Clone the Repo'){
+			// agent {
+			// 	docker {
+			// 		image 'manrala/all_in_one:v1'
+			// 	}
+			// }
+			steps {
+				script {
+					sh "rm -rf config-repo"
+					sh "git clone ${CONFIG_REPO_URL} config-repo"
+					dir('config-repo'){
+						sh "git fetch -a"
+						sh "git switch lab"
+					}
+				}
+			}
+		}
+		stage('Update the Deployment file') {
+			steps {
+				script {
+						sh """
+							cd config-repo
+							echo "-------------"
+							sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml
+							echo "-------------"
+						"""
+					}
+				}
+			}
+		stage('Commit and Push') {
+			steps {
+				withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
+					script {
+						sh """
+							echo "Pushing the changes"
+							cd config-repo
+							git config user.name "oaleev"
+							git config user.email "mina@mannamnaveen.com"
+							git add deployment.yaml
+							git commit -m "Updated the image tag to  ${DOCKER_REPO}:${GIT_COMMIT}"
+							git push https://github.com/oaleev/thedevsecops_config.git lab
+						"""
+					}
+				}
+			}
+		}
 	}
-	// post {
-	// 	always {
-	// 		script {
-	// 			docker.image('maven:3.9-eclipse-temurin-21').inside('-v /root/.m2:/root/.m2') {
-	// 				sh 'mv target/*.jar .'
-	// 				archiveArtifacts artifacts: '*.jar', allowEmptyArchive: false
-	// 				echo "Post build actions completed."
-	// 			}
-	// 		}
-	// 	}
-	// }
 }
