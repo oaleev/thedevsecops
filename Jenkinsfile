@@ -41,7 +41,7 @@ pipeline {
 		stage('Build the Image and Push to repo...') {
 			steps {
 				script {
-					def jarfile = sh(script: 'ls target/*.jar', returnStdout: true).trim()
+					def jarfile = sh(script: 'ls *.jar', returnStdout: true).trim()
 					sh "cp ${jarfile} ."
 				}
          		withDockerRegistry(credentialsId: 'docker', url: 'https://index.docker.io/v1/') {
