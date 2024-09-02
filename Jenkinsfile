@@ -71,15 +71,8 @@ pipeline {
 							ls -la
 							cd config-repo
 							ls -la
+							sed -i 's#image: ${DOCKER_REPO}:.*#image: ${DOCKER_REPO}:${GIT_COMMIT}#g' deployment.yaml
 						"""
-						// Read the deployment file
-						// def deploymentFile = redFile "config-repo/deployment.yaml"
-
-						// Replace the image tag
-						// def updatedDeploymentFile = deploymentFile.replaceAll(/image:\s+${DOCKER_REPO}:.*/, "image:${DOCKER_REPO}:${GIT_COMMIT}")
-
-						// Write the file
-						// writeFile file: "config-repo/deployment.yaml", text: updatedDeploymentFile
 					}
 				}
 			}
