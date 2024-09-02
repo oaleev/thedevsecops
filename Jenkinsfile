@@ -8,13 +8,13 @@ pipeline {
 	}
   	stages {
     	stage('Build Artifact - Maven') {
-			agent {
-				docker { 
-				// Using the maven image from Docker Hub
-				image 'maven:3.9-eclipse-temurin-21'
-				args '-v $HOME/.m2:/root/.m2'
-				}
-			}
+			// agent {
+			// 	docker { 
+			// 	// Using the maven image from Docker Hub
+			// 	image 'maven:3.9-eclipse-temurin-21'
+			// 	args '-v $HOME/.m2:/root/.m2'
+			// 	}
+			// }
 			steps {
          			sh "mvn clean package -DskipTests=true"
 					archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
@@ -22,13 +22,13 @@ pipeline {
 			}
     	}
 		stage('Unit Test Artifact - Maven') {
-			agent {
-				docker { 
-				// Using the maven image from Docker Hub
-				image 'maven:3.9-eclipse-temurin-21'
-				args '-v $HOME/.m2:/root/.m2'
-				}
-			}
+			// agent {
+			// 	docker { 
+			// 	// Using the maven image from Docker Hub
+			// 	image 'maven:3.9-eclipse-temurin-21'
+			// 	args '-v $HOME/.m2:/root/.m2'
+			// 	}
+			// }
 			steps {
          			sh "mvn test"
 			}
