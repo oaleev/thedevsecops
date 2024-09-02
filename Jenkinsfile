@@ -7,12 +7,6 @@ pipeline {
 		CONFIG_FOLDER = "${env.WORKSPACE}/config"
 	}
   	stages {
-		stage('Clean Workspace') {
-			steps {
-         			sh "echo "
-					cleanWs()
-			}
-    	}
     	stage('Build Artifact - Maven') {
 			agent {
 				docker { 
