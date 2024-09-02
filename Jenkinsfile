@@ -3,6 +3,7 @@ pipeline {
 	environment {
 		DOCKER_REPO = 'manrala/numeric-app'
 		CONFIG_REPO_URL = 'https://github.com/oaleev/thedevsecops_config.git'
+		CONFIG_ORG = 'oaleev/thedevsecops_config.git'
 		CONFIG_FOLDER = "${env.WORKSPACE}/config"
 	}
   	stages {
@@ -82,13 +83,21 @@ pipeline {
 			}
 		stage('Commit and Push') {
 			steps {
-				script {
+				withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default', variable: 'GIT_TOKEN')]) {
+					script {
 						sh """
 							echo "Pushing the changes"
 							cd config-repo
 							cat deployment.yaml
+							git config user.name "oaleev"
+							git config user.email "mina@mannamnaveen.com"
+							git add deployment.yaml
+							git commit -m "Updated the image tag to  ${DOCKER_REPO}:${GIT_COMMIT}"
+							git push https://${GIT_TOKEN}@github.com/${CONFIG_ORG} lab
+
 						"""
 					}
+				}
 			}
 		}
 	}
