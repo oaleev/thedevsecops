@@ -65,21 +65,20 @@ pipeline {
 			}
 		}
 		stage('Update the Deployment file') {
-			// agent {
-			// 	docker {
-			// 		image 'manrala/all_in_one:v1'
-			// 	}
-			// }
 			steps {
 				script {
+						sh "ls -la"
+						sh "cd config-repo"
+						sh "ls -la"
+
 						// Read the deployment file
-						def deploymentFile = redFile "config-repo/deployment.yaml"
+						// def deploymentFile = redFile "config-repo/deployment.yaml"
 
 						// Replace the image tag
-						def updatedDeploymentFile = deploymentFile.replaceAll(/image:\s+${DOCKER_REPO}:.*/, "image:${DOCKER_REPO}:${GIT_COMMIT}")
+						// def updatedDeploymentFile = deploymentFile.replaceAll(/image:\s+${DOCKER_REPO}:.*/, "image:${DOCKER_REPO}:${GIT_COMMIT}")
 
 						// Write the file
-						writeFile file: "config-repo/deployment.yaml", text: updatedDeploymentFile
+						// writeFile file: "config-repo/deployment.yaml", text: updatedDeploymentFile
 					}
 				}
 			}
