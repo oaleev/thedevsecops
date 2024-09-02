@@ -12,12 +12,13 @@ pipeline {
 				docker { 
 				// Using the maven image from Docker Hub
 				image 'maven:3.9-eclipse-temurin-21'
+				args '-v $HOME/.m2:/root/.m2'
 				}
 			}
 			steps {
          			sh "mvn clean package -DskipTests=true"
 					archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
-					stash includes 'target/*.jar', name: 'buildJar'
+					stash includes: 'target/*.jar', name: 'buildJar'
 			}
     	}
 		stage('Unit Test Artifact - Maven') {
@@ -25,6 +26,7 @@ pipeline {
 				docker { 
 				// Using the maven image from Docker Hub
 				image 'maven:3.9-eclipse-temurin-21'
+				args '-v $HOME/.m2:/root/.m2'
 				}
 			}
 			steps {
