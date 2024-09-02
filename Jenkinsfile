@@ -1,5 +1,10 @@
 pipeline {
-	agent any
+	// agent any
+	agent {
+		docker {
+			image 'manrala/all_in_one:v1'
+		}
+	}
 	environment {
 		DOCKER_REPO = 'manrala/numeric-app'
 		CONFIG_REPO_URL = 'https://github.com/oaleev/thedevsecops_config.git'
