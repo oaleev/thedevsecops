@@ -66,7 +66,7 @@ pipeline {
 		stage('Update the Deployment file') {
 			agent {
 				docker {
-					image 'alpine:latest'
+					image 'manrala/all_in_one:v1'
 				}
 			}
 			steps {
