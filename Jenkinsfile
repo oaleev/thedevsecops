@@ -48,11 +48,11 @@ pipeline {
 			}
     	}
 		stage ('Clone the Repo'){
-			agent {
-				docker {
-					image 'manrala/all_in_one:v1'
-				}
-			}
+			// agent {
+			// 	docker {
+			// 		image 'manrala/all_in_one:v1'
+			// 	}
+			// }
 			steps {
 				script {
 					sh "rm -rf config-repo"
@@ -65,11 +65,11 @@ pipeline {
 			}
 		}
 		stage('Update the Deployment file') {
-			agent {
-				docker {
-					image 'manrala/all_in_one:v1'
-				}
-			}
+			// agent {
+			// 	docker {
+			// 		image 'manrala/all_in_one:v1'
+			// 	}
+			// }
 			steps {
 				script {
 						// Read the deployment file
