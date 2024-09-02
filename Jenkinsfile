@@ -38,12 +38,7 @@ pipeline {
 			}
     	}
 		stage('Build the Image and Push to repo...') {
-			agent {
-				docker { 
-				// Using the maven image from Docker Hub
-				image 'maven:3.9-eclipse-temurin-21'
-				}
-			}
+			agent any
 			steps {
 				script {
 					def jarfile = sh(script: 'ls target/*.jar', returnStdout: true).trim()
