@@ -36,6 +36,21 @@ pipeline {
 				}
 			}
     	}
+		stage('Mutation - Test') {
+			agent {
+				docker {
+					image 'manrala/all_in_one:v1'
+				}
+			}
+			steps {
+         			sh "mvn org.pitest:pitest-maven:mutationCoverage"
+			}
+			post {
+				always {
+					pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+				}
+			}
+    	}
 		stage('Build the Image and Push to repo...') {
 			steps {
 				unstash 'buildJar'
