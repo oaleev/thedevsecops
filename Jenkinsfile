@@ -58,10 +58,17 @@ pipeline {
 				}
 			}
 			steps {
-         			sh """
+         			withSonarQubeEnv('SonarQube'){
+					sh """
 					mvn clean verify sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.projectName='numeric-application' \
 						-Dsonar.host.url=http://10.154.1.29:9000 -Dsonar.token=sqp_445416b5d75cd4c815a63604ce988d60dfac4a5e
 					"""
+					}
+					timeout(time: 2, unit: 'MINUTES'){
+						script {
+							waitForQualityGate abortPipeline: true
+						}
+					}
 			}
     	}
 		stage('Build the Image and Push to repo...') {
