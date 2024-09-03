@@ -38,7 +38,7 @@ public class NumericApplicationTests {
             .exchange()
             .expectStatus().isOk()
             .expectBody(String.class).consumeWith(result -> {
-                "Yes, Smaller than or equal to 50"
+                "Yes, Smaller than or equal to 50";
             });
     }
 
