@@ -51,7 +51,7 @@ pipeline {
 				}
 			}
     	}
-		stage('Sonarqube - SAST') {
+		stage('Sonarqube - SAST.') {
 			agent {
 				docker {
 					image 'manrala/all_in_one:v1'
