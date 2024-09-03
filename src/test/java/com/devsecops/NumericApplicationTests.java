@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = NumericApplicationTests.class)
 @AutoConfigureMockMvc
 public class NumericApplicationTests {
 
