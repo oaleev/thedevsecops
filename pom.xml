@@ -75,7 +75,8 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.0</version>
 				<configuration>
-					<testFailureIgnore>true</testFailureIgnore>
+					<reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+					<!-- <testFailureIgnore>true</testFailureIgnore> -->
 				</configuration>
         	</plugin>
 			<!--                   Jacoco Plugin                   -->
