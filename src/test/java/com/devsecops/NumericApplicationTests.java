@@ -17,6 +17,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = NumericApplicationTests.class)
@@ -24,12 +27,19 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 public class NumericApplicationTests {
 
     @Autowired
-    private TestWebClient webClient;
+    private WebTestClient webClient;
 
     @Test
     public void smallerThanOrEqualToFiftyMessage() throws Exception {
-        this.mockMvc.perform(get("/compare/50")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string("Yes, Smaller than or equal to 50"));
+        // this.mockMvc.perform(get("/compare/50")).andDo(print()).andExpect(status().isOk())
+        //         .andExpect(content().string("Yes, Smaller than or equal to 50"));
+
+        webClient.get().uri("/compare/50")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(String.class).consumeWith(result -> {
+                "Yes, Smaller than or equal to 50"
+            });
     }
 
     @Test
