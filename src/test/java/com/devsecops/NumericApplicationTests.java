@@ -22,8 +22,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @AutoConfigureMockMvc
 public class NumericApplicationTests {
 
-    @Autowired
-    private MockMvc mockMvc;
+    // @Autowired
+    // private MockMvc mockMvc;
 
     @Test
     public void smallerThanOrEqualToFiftyMessage() throws Exception {
@@ -39,7 +39,7 @@ public class NumericApplicationTests {
     
     
 
-@Test
+    @Test
     public void welcomeMessage() throws Exception {
         this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string("DevSecOps is so cool"));
