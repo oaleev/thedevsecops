@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.boot.test.web.client.WebTestClient;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = NumericApplicationTests.class)
