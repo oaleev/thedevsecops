@@ -31,15 +31,12 @@ public class NumericApplicationTests {
 
     @Test
     public void smallerThanOrEqualToFiftyMessage() throws Exception {
-        // this.mockMvc.perform(get("/compare/50")).andDo(print()).andExpect(status().isOk())
-        //         .andExpect(content().string("Yes, Smaller than or equal to 50"));
-
-        webClient.get().uri("/compare/50")
+         WebTestClient.RequestBuilders.get()
+            .uri("/compare/50")
             .exchange()
             .expectStatus().isOk()
-            .expectBody(String.class).consumeWith(result -> {
-                "Yes, Smaller than or equal to 50";
-            });
+            .expectBody(String.class)
+            .isEqualTo("Yes, Smaller than or equal to 50");
     }
 
     @Test
