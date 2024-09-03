@@ -32,7 +32,8 @@ public class NumericApplicationTests {
     private WebTestClient webClient;
 
     @Test
-    public void smallerThanOrEqualToFiftyMessage() throws Exception {
+    // public void smallerThanOrEqualToFiftyMessage() throws Exception {
+    public void smallerThanOrEqualToFiftyMessage() {
          WebTestClient.RequestBuilders.get()
             .uri("/compare/50")
             .exchange()
