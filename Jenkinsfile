@@ -20,7 +20,7 @@ pipeline {
 					stash includes: 'target/*.jar', name: 'buildJar'
 			}
     	}
-		stage('Unit Test Artifact - Maven') {
+		stage('Unit Test - Maven') {
 			agent {
 				docker {
 					image 'manrala/all_in_one:v1'
@@ -48,6 +48,41 @@ pipeline {
 			post {
 				always {
 					pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+				}
+			}
+    	}
+		stage('Sonarqube - SAST.') {
+			agent {
+				docker {
+					image 'manrala/all_in_one:v1'
+				}
+			}
+			steps {
+         			withSonarQubeEnv('SonarQube'){
+					sh """
+					mvn clean verify sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.projectName='numeric-application' \
+						-Dsonar.host.url=http://10.154.1.29:9000
+					"""
+					}
+					timeout(time: 2, unit: 'MINUTES'){
+						script {
+							waitForQualityGate abortPipeline: true
+						}
+					}
+			}
+    	}
+		stage('Dependency Check') {
+			agent {
+				docker {
+					image 'manrala/all_in_one:v1'
+				}
+			}
+			steps {
+         			sh "mvn dependency-check:check"
+			}
+			post {
+				always {
+					dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
 				}
 			}
     	}
