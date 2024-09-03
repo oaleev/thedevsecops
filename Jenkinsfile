@@ -71,6 +71,21 @@ pipeline {
 					}
 			}
     	}
+		stage('Dependency Check') {
+			agent {
+				docker {
+					image 'manrala/all_in_one:v1'
+				}
+			}
+			steps {
+         			sh "mvn dependency-check:check"
+			}
+			post {
+				always {
+					dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+				}
+			}
+    	}
 		stage('Build the Image and Push to repo...') {
 			steps {
 				unstash 'buildJar'
