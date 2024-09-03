@@ -15,8 +15,7 @@ pipeline {
 				}
 			}
 			steps {
-         			// sh "mvn clean package -DskipTests=true"
-					sh 'mvn clean package'
+         			sh "mvn clean package -DskipTests=true"
 					archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: false
 					stash includes: 'target/*.jar', name: 'buildJar'
 			}
