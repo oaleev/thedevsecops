@@ -20,7 +20,7 @@ pipeline {
 					stash includes: 'target/*.jar', name: 'buildJar'
 			}
     	}
-		stage('Unit Test Artifact - Maven') {
+		stage('Unit Test - Maven') {
 			agent {
 				docker {
 					image 'manrala/all_in_one:v1'
