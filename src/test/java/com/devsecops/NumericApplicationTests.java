@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = NumericApplicationTests.class)
-@AutoConfigureMockMvc
+// @AutoConfigureMockMvc
 public class NumericApplicationTests {
 
     @Autowired
