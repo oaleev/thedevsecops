@@ -12,6 +12,7 @@ pipeline {
 			agent {
 				docker {
 					image 'manrala/all_in_one:v1'
+					args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -24,6 +25,7 @@ pipeline {
 			agent {
 				docker {
 					image 'manrala/all_in_one:v1'
+					args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -40,6 +42,7 @@ pipeline {
 			agent {
 				docker {
 					image 'manrala/all_in_one:v1'
+					args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -55,6 +58,7 @@ pipeline {
 			agent {
 				docker {
 					image 'manrala/all_in_one:v1'
+					args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -75,6 +79,7 @@ pipeline {
 			agent {
 				docker {
 					image 'manrala/all_in_one:v1'
+					args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
