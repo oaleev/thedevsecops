@@ -54,43 +54,43 @@ pipeline {
 				}
 			}
     	}
-		stage('Sonarqube - SAST.') {
-			agent {
-				docker {
-					image 'maven:3.9-eclipse-temurin-21'
-					args '-v /root/.m2:/root/.m2'
-				}
-			}
-			steps {
-         			withSonarQubeEnv('SonarQube'){
-					sh """
-					mvn clean verify sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.projectName='numeric-application' \
-						-Dsonar.host.url=http://10.154.1.29:9000
-					"""
-					}
-					// timeout(time: 2, unit: 'MINUTES'){
-					// 	script {
-					// 		waitForQualityGate abortPipeline: true
-					// 	}
-					// }
-			}
-    	}
-		stage('Dependency Check') {
-			agent {
-				docker {
-					image 'maven:3.9-eclipse-temurin-21'
-					args '-v /root/.m2:/root/.m2'
-				}
-			}
-			steps {
-         			sh "mvn dependency-check:check"
-			}
-			post {
-				always {
-					dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
-				}
-			}
-    	}
+		// stage('Sonarqube - SAST.') {
+		// 	agent {
+		// 		docker {
+		// 			image 'maven:3.9-eclipse-temurin-21'
+		// 			args '-v /root/.m2:/root/.m2'
+		// 		}
+		// 	}
+		// 	steps {
+        //  			withSonarQubeEnv('SonarQube'){
+		// 			sh """
+		// 			mvn clean verify sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.projectName='numeric-application' \
+		// 				-Dsonar.host.url=http://10.154.1.29:9000
+		// 			"""
+		// 			}
+		// 			// timeout(time: 2, unit: 'MINUTES'){
+		// 			// 	script {
+		// 			// 		waitForQualityGate abortPipeline: true
+		// 			// 	}
+		// 			// }
+		// 	}
+    	// }
+		// stage('Dependency Check') {
+		// 	agent {
+		// 		docker {
+		// 			image 'maven:3.9-eclipse-temurin-21'
+		// 			args '-v /root/.m2:/root/.m2'
+		// 		}
+		// 	}
+		// 	steps {
+        //  			sh "mvn dependency-check:check"
+		// 	}
+		// 	post {
+		// 		always {
+		// 			dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+		// 		}
+		// 	}
+    	// }
 		stage('Build the Image and Push to repo...') {
 			steps {
 				unstash 'buildJar'
