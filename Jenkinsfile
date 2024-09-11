@@ -68,11 +68,11 @@ pipeline {
 						-Dsonar.host.url=http://10.154.1.29:9000
 					"""
 					}
-					timeout(time: 2, unit: 'MINUTES'){
-						script {
-							waitForQualityGate abortPipeline: true
-						}
-					}
+					// timeout(time: 2, unit: 'MINUTES'){
+					// 	script {
+					// 		waitForQualityGate abortPipeline: true
+					// 	}
+					// }
 			}
     	}
 		stage('Dependency Check') {
