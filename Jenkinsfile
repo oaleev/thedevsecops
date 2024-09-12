@@ -11,7 +11,7 @@ pipeline {
     	stage('Build Artifact - Maven') {
 			agent {
 				docker {
-					image 'manrala/all_in_one:v3'
+					image 'manrala/all_in_one:v2'
 					args '-v /root/.m2:/root/.m2'
 				}
 			}
@@ -24,7 +24,7 @@ pipeline {
 		stage('Unit Test - Maven') {
 			agent {
 				docker {
-					image 'manrala/all_in_one:v3'
+					image 'manrala/all_in_one:v2'
 					args '-v /root/.m2:/root/.m2'
 				}
 			}
@@ -41,7 +41,7 @@ pipeline {
 		stage('Mutation - Test') {
 			agent {
 				docker {
-					image 'manrala/all_in_one:v3'
+					image 'manrala/all_in_one:v2'
 					args '-v /root/.m2:/root/.m2'
 				}
 			}
@@ -57,7 +57,7 @@ pipeline {
 		// stage('Sonarqube - SAST.') {
 		// 	agent {
 		// 		docker {
-		// 			'image 'manrala/all_in_one:v1'
+		// 			'image 'manrala/all_in_one:v2'
 		// 			args '-v /root/.m2:/root/.m2'
 		// 		}
 		// 	}
