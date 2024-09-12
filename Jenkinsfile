@@ -57,7 +57,7 @@ pipeline {
 		stage('Sonarqube - SAST.') {
 			agent {
 				docker {
-					'image 'manrala/all_in_one:v2'
+					image 'manrala/all_in_one:v2'
 					args '-u root'
 				}
 			}
