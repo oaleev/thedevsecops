@@ -13,6 +13,7 @@ pipeline {
 				docker {
 					image 'manrala/all_in_one:v2'
 					args '-u root'
+					args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -26,6 +27,7 @@ pipeline {
 				docker {
 					image 'manrala/all_in_one:v2'
 					args '-u root'
+					args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -43,6 +45,7 @@ pipeline {
 				docker {
 					image 'manrala/all_in_one:v2'
 					args '-u root'
+					args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -59,6 +62,7 @@ pipeline {
 				docker {
 					image 'manrala/all_in_one:v2'
 					args '-u root'
+					args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
@@ -80,6 +84,7 @@ pipeline {
 				docker {
 					image 'maven:3.9-eclipse-temurin-21'
 					args '-u root'
+					args '-v /root/.m2:/root/.m2'
 				}
 			}
 			steps {
